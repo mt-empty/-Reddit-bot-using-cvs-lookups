@@ -1,0 +1,6 @@
+﻿civ,Leader,ability,starts bias,Unique unit,Unique building/Improvement
+American,Washington,Manifest Destiny: All land military units have +1 Sight. 50% discount when purchasing tiles.,None,"B17 (replaces Bomber), Minuteman (replaces Musketman) ",None
+Arabian,Harun al-Rashid,"Ships of the Desert (Brave New World): Caravans gain 50% extended range, Your trade routes spread the home city's religion twice as effectively, Oil resources are doubled ",Desert,Camel archer  (replaces Knight),Bazaar (replaces Market)
+Assyrian,Ashurbanipal,"""Treasures of Nineveh: Treasures of Nineveh: When a city is conquered, gain a free Technology already discovered by its owner. Gaining a city through a trade deal does not count, and it can only happen once per enemy city. ",Avoid Tundra,Siege tower (replaces Catapult),Royal library (replaces Library) 
+Brazilian,Pedro II,"Carnival: Tourism output is +100% during their Golden Ages Earn Great Artists, Musicians, and Writers 50% faster during their Golden Ages ",Jungle,Pracinha (replaces Infantry),Brazilwood camp
+Egyptian,Ramesses II,Monument Builders: +20% Production towards Wonder construction,Avoid Jungle and Forest, War chariot (replaces Chariot archer),Burial tomb (replaces Temple) 
