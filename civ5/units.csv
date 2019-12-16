@@ -1,0 +1,3 @@
+﻿Unit,Production cost,Combat strength,Moves,Range,Ranged strength,Technology,Upgrades to,Notes
+Crossbowman,120,13,2,2,18,Machinery,Gatling gun,May not melee attack
+Spearman,56,11,2,None,None,Bronze working,"Pikeman, Impi",50% bonus vs. mounted units
