@@ -39,11 +39,7 @@ Given this :
 It replies with this:
 
 Unit|Spearman|Crossbowman
-<<<<<<< HEAD
 ---|---|---
-=======
----|---|---|---
->>>>>>> origin/master
 Production cost|56|120
 Combat strength|11|13
 Moves|2|2
