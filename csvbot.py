@@ -1,8 +1,9 @@
 import praw
-import config
 import time
 import re
 import pandas
+import config
+import game_config
 
 
 def bot_login():
@@ -12,16 +13,22 @@ def bot_login():
                                  client_id=config.client_id,
                                  client_secret=config.client_secret,
                                  user_agent="cvs lookup to reddit table")
-    print("logged in")
+    print("logged in as", config.username)
     return reddit_account
 
 
 def run_bot(r, comments_replied):
+    """
+    Sanitizes input if valid
+    
+    Args:
+        r (object): a reddit reddit instance
+        comments_replied (string): the reply comment
+    """
 
     for comment in r.subreddit('test').comments(limit=155):
 
-        # capital A-Z, small a-z and numbers form 5-6 since civ 5 and 6 and finally a coma
-        key_words = re.findall(r"\{A-Za-z5-6,\}", comment.body)
+        key_words = re.findall(game_config.regex, comment.body)
         # print(key_words)
 
         if key_words and comment.id not in comments_replied: # and comment.author != r.user.me():
@@ -30,7 +37,6 @@ def run_bot(r, comments_replied):
 
             for key_word in key_words:
                 try:
-                    # TODO: if it finds a match that is not valid, it should save the comment id and skip it the next time as this will make it check endlessly
                     print("found a match")
 
                     # throws an error if there is more than one coma
@@ -46,6 +52,7 @@ def run_bot(r, comments_replied):
                     print("bot reply:\n", bot_reply)
                 except Exception as er:
                     print("Error:", er)
+                    comments_replied.append(comment.id)
                     pass  # no entry in data or more than one coma or some other reason
 
             if bot_reply:
@@ -59,16 +66,17 @@ def run_bot(r, comments_replied):
 
 def get_data(keys, version):
     """
-    returns the data for a key 
-
+    returns data for a given keys and version
+    
     Args:
-        key (string): a string such as Assyria
-
+        keys (list): a list of strings consisting of keyswords
+        version (string): game version
+    
     Returns:
-        list : data associated to the key, else false if none
+        [list]: header list and key properties
     """
 
-    files = ['civs.csv', 'units.csv']
+    files = game_config.files
     keys_properties = []
 
     if " vs " in keys:
@@ -97,9 +105,15 @@ def get_data(keys, version):
 def format_data(header_list, keys_properties):
     """
     formats the data into a reddit supported table
-
+    
+    Args:
+        header_list (list): list of headers from the csv file
+        keys_properties (list): the properties of each key
+    
+    Returns:
+        string: the final replay
     """
-    num_col = len(keys_properties) + 1
+    num_col = len(keys_properties)
     col_sep = "|---"
 
     keys_properties = comparison_format(keys_properties)
@@ -117,12 +131,21 @@ def format_data(header_list, keys_properties):
 
 
 def comparison_format(keys_properties):
-    new_list = [""] * len(keys_properties[0])
+    """
+    returns a nicely formated table
+    
+    Args:
+        keys_properties (strings): row information(non headers)
+    
+    Returns:
+        list: row information(non headers)
+    """
+    row_properties = [""] * len(keys_properties[0])
 
     for key in keys_properties:
         for i, prop in enumerate(key):
-            new_list[i] = str(new_list[i]) + "|" + str(prop)
-    return new_list
+            row_properties[i] = str(row_properties[i]) + "|" + str(prop)
+    return row_properties
 
 
 def get_saved_comments():
